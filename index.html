@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hydrogen — a student-made educational website.">
+  <title>Hydrogen | Student Learning Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="sources/favicon.jpg" type="image/jpg">
+</head>
+<body>
+  <div class="green-pulse"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">H₂</div>
+      <div>
+        <h1>Hydrogen</h1>
+        <span>Student Learning Hub</span>
+      </div>
+    </div>
+
+    <button class="close-btn" id="closeSidebar" aria-label="Close menu">×</button>
+
+    <nav>
+      <a href="#home" class="active">⌂ <span>Home</span></a>
+      <a href="#about">ⓘ <span>About</span></a>
+      <a href="#tutorials">▣ <span>Tutorials</span></a>
+      <a href="studyguide.html">📚 <span>Study Guide</span></a>
+    </nav>
+
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+      <span id="themeLabel">☾ Dark Mode</span>
+      <span class="theme-switch" aria-hidden="true"></span>
+    </button>
+
+    <div class="sidebar-footer">
+      <span class="dot"></span> Made by school students
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <button class="menu-btn" id="openSidebar" aria-label="Open menu">☰</button>
+      <div class="mini-brand">Hydrogen</div>
+      <a href="#tutorials" class="top-link">Explore</a>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <div class="eyebrow"><span class="blink-dot"></span> LEARN • CREATE • EXPLORE</div>
+        <h2>Welcome to <span>Hydrogen</span></h2>
+        <p>
+          A student-made educational space for technology, programming,
+          electronics and smarter study.
+        </p>
+        <div class="hero-actions">
+          <a href="#tutorials" class="btn primary">Explore Tutorials →</a>
+          <a href="#about" class="btn secondary">About Hydrogen</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="atom">H</div>
+        <p>Curiosity is the first step to discovery.</p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-heading">
+        <span>01</span>
+        <div>
+          <p class="eyebrow">ABOUT US</p>
+          <h2>Built by students, <span>for students.</span></h2>
+        </div>
+      </div>
+      <div class="about-grid">
+        <article class="glass-card">
+          <div class="card-icon">⚡</div>
+          <h3>Student Powered</h3>
+          <p>Hydrogen is designed as a learning project by school students who enjoy technology and education.</p>
+        </article>
+        <article class="glass-card">
+          <div class="card-icon">💡</div>
+          <h3>Learn Differently</h3>
+          <p>Clear tutorials, practical ideas and study resources help turn curiosity into useful skills.</p>
+        </article>
+        <article class="glass-card">
+          <div class="card-icon">🌱</div>
+          <h3>Always Growing</h3>
+          <p>New lessons, projects and guides can be added as the Hydrogen learning community grows.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section tutorials" id="tutorials">
+      <div class="section-heading">
+        <span>02</span>
+        <div>
+          <p class="eyebrow">LEARNING LIBRARY</p>
+          <h2>Explore our <span>tutorials.</span></h2>
+        </div>
+      </div>
+
+      <div class="tutorial-grid">
+        <article class="tutorial-card" href="Arduino.html">
+          <div class="tutorial-number">01</div>
+          <div class="tutorial-icon">⚙</div>
+          <h3>Arduino Tutorial - Coming Soon</h3>
+          <p>Learn electronics, sensors, components and Arduino programming step by step.</p>
+          <span class="read">Coming Soon →</span>
+        </article>
+
+        <article class="tutorial-card" href="html5tute.html">
+          <div class="tutorial-number">02</div>
+          <div class="tutorial-icon">&lt;/&gt;</div>
+          <h3>HTML Tutorial - Coming Soon</h3>
+          <p>Build webpages with HTML5 and learn the essential structure of the modern web.</p>
+          <span class="read">Coming Soon →</span>
+        </article>
+
+        <a class="tutorial-card" href="studyguide.html">
+          <div class="tutorial-number">03</div>
+          <div class="tutorial-icon">📖</div>
+          <h3>Study Guide</h3>
+          <p>Organize your school learning with useful study resources and revision ideas.</p>
+          <span class="read">Open guide →</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <strong>H₂ Hydrogen</strong>
+      <span>Made with curiosity by school students.</span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
