@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Projects | Student Work</title>
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <div class="green-pulse"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <button class="close-btn"
+                onclick="closeMenu()">
+            ×
+        </button>
+
+
+        <div class="brand">
+
+            <div class="logo">
+                P
+            </div>
+
+            <div>
+                <h1>Projects</h1>
+                <span>STUDENT WORK</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="index.html">
+                🏠 Home
+            </a>
+
+            <a href="#projects"
+               class="active">
+                📁 Projects
+            </a>
+
+            <a href="#tanvir">
+                👨‍🎓 Tanvir
+            </a>
+
+            <a href="#rehan">
+                👨‍🎓 Rehan
+            </a>
+
+            <a href="#romiyel">
+                👨‍🎓 Romiyel
+            </a>
+
+        </nav>
+
+
+        <button class="theme-toggle"
+                onclick="toggleTheme()">
+
+            <span id="themeText">
+                🌙 Dark Mode
+            </span>
+
+            <span class="theme-switch"></span>
+
+        </button>
+
+
+        <div class="sidebar-footer">
+
+            <span class="dot"></span>
+
+            Projects Portal
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button class="menu-btn"
+                    onclick="openMenu()">
+                ☰
+            </button>
+
+            <span class="mini-brand">
+                PROJECTS
+            </span>
+
+            <a href="index.html"
+               class="top-link">
+                ← Back to Home
+            </a>
+
+        </header>
+
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+
+                <div class="eyebrow">
+
+                    <span class="blink-dot"></span>
+
+                    STUDENT PROJECT PORTAL
+
+                </div>
+
+
+                <h2>
+
+                    Explore<br>
+
+                    <span>Projects.</span>
+
+                </h2>
+
+
+                <p>
+                    A collection of academic projects and
+                    digital work created by Tanvir Hussain,
+                    Rehan Hassan and Romiyel Shahin.
+                </p>
+
+            </div>
+
+
+
+            <div class="hero-card">
+
+                <div class="orbit"></div>
+
+                <div class="orbit orbit-two"></div>
+
+
+                <div class="project-symbol">
+                    P
+                </div>
+
+
+                <p>
+                    THREE STUDENTS • MULTIPLE PROJECTS
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PROJECTS -->
+
+        <section class="projects"
+                 id="projects">
+
+
+            <div class="section-heading">
+
+                <span>01</span>
+
+                <div>
+
+                    <div class="eyebrow">
+                        PROJECT DIRECTORY
+                    </div>
+
+                    <h2>
+                        Student
+                        <span>Projects</span>
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TANVIR -->
+
+            <article class="project-article"
+                     id="tanvir">
+
+                <div class="person-header">
+
+                    <div class="person-icon">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Tanvir Hussain
+                        </h3>
+
+                        <p>
+                            Academic Projects & Research Work
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-list">
+
+                    <button class="project-btn"
+                            onclick="openProject('tanvir-excel.html')">
+
+                        <span class="icon">
+                            📊
+                        </span>
+
+                        <span>
+                            <strong>
+                                Excel Project
+                            </strong>
+
+                            <small>
+                                Microsoft Excel work
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('tanvir-financial.html')">
+
+                        <span class="icon">
+                            💰
+                        </span>
+
+                        <span>
+                            <strong>
+                                Financial Literacy
+                            </strong>
+
+                            <small>
+                                Financial literacy project
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('tanvir-research.html')">
+
+                        <span class="icon">
+                            🔎
+                        </span>
+
+                        <span>
+                            <strong>
+                                Research Work
+                            </strong>
+
+                            <small>
+                                Research and documentation
+                            </small>
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- REHAN -->
+
+            <article class="project-article"
+                     id="rehan">
+
+                <div class="person-header">
+
+                    <div class="person-icon">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Rehan Hassan
+                        </h3>
+
+                        <p>
+                            Academic Projects & Research Work
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-list">
+
+                    <button class="project-btn"
+                            onclick="openProject('rehan-excel.html')">
+
+                        <span class="icon">
+                            📊
+                        </span>
+
+                        <span>
+                            <strong>
+                                Excel Project
+                            </strong>
+
+                            <small>
+                                Microsoft Excel work
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('rehan-financial.html')">
+
+                        <span class="icon">
+                            💰
+                        </span>
+
+                        <span>
+                            <strong>
+                                Financial Literacy
+                            </strong>
+
+                            <small>
+                                Financial literacy project
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('rehan-research.html')">
+
+                        <span class="icon">
+                            🔎
+                        </span>
+
+                        <span>
+                            <strong>
+                                Research Work
+                            </strong>
+
+                            <small>
+                                Research and documentation
+                            </small>
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- ROMIYEL -->
+
+            <article class="project-article"
+                     id="romiyel">
+
+                <div class="person-header">
+
+                    <div class="person-icon">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Romiyel Shahin
+                        </h3>
+
+                        <p>
+                            Academic Projects & Research Work
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-list">
+
+                    <button class="project-btn"
+                            onclick="openProject('romiyel-excel.html')">
+
+                        <span class="icon">
+                            📊
+                        </span>
+
+                        <span>
+                            <strong>
+                                Excel Project
+                            </strong>
+
+                            <small>
+                                Microsoft Excel work
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('romiyel-financial.html')">
+
+                        <span class="icon">
+                            💰
+                        </span>
+
+                        <span>
+                            <strong>
+                                Financial Literacy
+                            </strong>
+
+                            <small>
+                                Financial literacy project
+                            </small>
+                        </span>
+
+                    </button>
+
+
+                    <button class="project-btn"
+                            onclick="openProject('romiyel-research.html')">
+
+                        <span class="icon">
+                            🔎
+                        </span>
+
+                        <span>
+                            <strong>
+                                Research Work
+                            </strong>
+
+                            <small>
+                                Research and documentation
+                            </small>
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <span>
+                © 2026
+                <strong>Projects Portal</strong>
+            </span>
+
+            <span>
+
+                <span class="dot"></span>
+
+                Academic Work
+
+            </span>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function openProject(page) {
+            window.location.href = page;
+        }
+
+
+        function openMenu() {
+
+            document
+                .getElementById("sidebar")
+                .classList
+                .add("open");
+
+        }
+
+
+        function closeMenu() {
+
+            document
+                .getElementById("sidebar")
+                .classList
+                .remove("open");
+
+        }
+
+
+        function toggleTheme() {
+
+            document.body
+                .classList
+                .toggle("light-mode");
+
+
+            const themeText =
+                document.getElementById("themeText");
+
+
+            if (
+                document.body
+                    .classList
+                    .contains("light-mode")
+            ) {
+
+                themeText.textContent =
+                    "☀️ Light Mode";
+
+            } else {
+
+                themeText.textContent =
+                    "🌙 Dark Mode";
+
+            }
+
+        }
+
+
+        document
+            .querySelectorAll(".sidebar nav a")
+            .forEach(function(link) {
+
+                link.addEventListener(
+                    "click",
+                    function() {
+
+                        closeMenu();
+
+                    }
+                );
+
+            });
+
+    </script>
+
+</body>
+
+</html>
