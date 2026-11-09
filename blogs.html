@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#040c08">
+  <script>
+    (function () {
+      var r = document.documentElement, t = "dark";
+      try { if (localStorage.getItem("hydrogen-theme") === "light") t = "light"; } catch (e) {}
+      r.setAttribute("data-theme", t);
+      r.classList.add("js");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Explore Hydrogen blogs on science, technology, electronics, mathematics, the environment, and student projects.">
+  <title>Blogs | Hydrogen — Student Learning Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="sources/favicon.png" type="image/png">
+  <style>
+    /* Blog-page styles use the same design tokens as Hydrogen's main stylesheet. */
+    .blog-hero { padding: 76px 8% 58px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(220px,.8fr); gap: 42px; align-items: center; }
+    .blog-hero h2 { margin: 22px 0; max-width: 780px; font-size: clamp(44px,6.5vw,78px); line-height: 1; letter-spacing: -.045em; }
+    .blog-hero h2 span, .blog-section h2 span { background: linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent)); background-size: 200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation: shimmer 6s linear infinite; }
+    .blog-hero p { max-width: 650px; color: var(--muted); font-size: 17px; line-height: 1.75; }
+    .blog-hero-visual { min-height: 275px; border: 1px solid var(--border); border-radius: 28px; background: linear-gradient(145deg,var(--glow),transparent 70%),var(--panel); box-shadow: var(--shadow),inset 0 0 70px var(--glow); display:grid; place-items:center; position:relative; overflow:hidden; }
+    .blog-hero-visual::before { content:""; position:absolute; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:28px 28px; -webkit-mask-image:radial-gradient(circle,#000 20%,transparent 75%); mask-image:radial-gradient(circle,#000 20%,transparent 75%); }
+    .blog-orbit { width:155px;height:155px;border:1px solid var(--border-strong);border-radius:50%;display:grid;place-items:center;position:relative;animation:float 4s ease-in-out infinite; }
+    .blog-orbit::before,.blog-orbit::after { content:"";position:absolute;border:1px solid var(--accent);border-radius:50%;width:220px;height:80px;opacity:.7; }
+    .blog-orbit::after { transform:rotate(60deg); }
+    .blog-orbit strong { width:92px;height:92px;border:2px solid var(--accent);border-radius:24px;display:grid;place-items:center;color:var(--accent);font:700 35px "Space Grotesk",sans-serif;background:var(--glow);box-shadow:0 0 35px var(--glow);z-index:1; }
+    .blog-visual-caption { position:absolute;bottom:20px;color:var(--muted);font-size:11px;letter-spacing:.06em; }
+    .blog-section { padding: 64px 8% 84px; background:var(--band); border-top:1px solid var(--border); }
+    .blog-toolbar { display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:0 0 25px; }
+    .blog-search { width:min(100%,310px);position:relative; }
+    .blog-search span { position:absolute;left:15px;top:10px;color:var(--accent);font-size:20px; }
+    .blog-search input { width:100%;padding:13px 15px 13px 43px;border:1px solid var(--border);border-radius:13px;background:var(--panel);color:var(--text);font:inherit;font-size:13px;outline:none; }
+    .blog-search input:focus { border-color:var(--border-strong);box-shadow:0 0 0 3px var(--glow); }
+    .blog-filters { display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px; }
+    .blog-filter { padding:9px 14px;border:1px solid var(--border);border-radius:99px;background:var(--link-bg);color:var(--muted);font:700 12px Inter,sans-serif;cursor:pointer;transition:transform .2s,border-color .2s,background .2s,color .2s; }
+    .blog-filter:hover { transform:translateY(-2px);border-color:var(--border-strong);color:var(--text); }
+    .blog-filter.active { color:var(--on-btn);border-color:transparent;background:linear-gradient(120deg,var(--btn-from),var(--btn-to));box-shadow:0 6px 18px var(--glow); }
+    .blog-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px; }
+    .blog-card { min-width:0;min-height:310px;position:relative;isolation:isolate;overflow:hidden;padding:0;border:1px solid var(--border);border-radius:22px;background:var(--panel);backdrop-filter:blur(12px);transition:transform .35s,border-color .3s,box-shadow .35s; }
+    .blog-card::before { content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),var(--glow),transparent 45%);opacity:0;transition:opacity .35s; }
+    .blog-card:hover { transform:translateY(-7px);border-color:var(--border-strong);box-shadow:var(--shadow); }
+    .blog-card:hover::before { opacity:1; }
+    .blog-card-art { height:145px;display:grid;place-items:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--link-bg-hover),transparent),var(--band); }
+    .blog-card-art::before,.blog-card-art::after { content:"";position:absolute;width:120px;height:120px;border:1px solid var(--border-strong);border-radius:50%;opacity:.55; }
+    .blog-card-art::after { width:175px;height:80px;transform:rotate(-35deg); }
+    .blog-card-art span { width:66px;height:66px;border:1px solid var(--border-strong);border-radius:19px;background:var(--link-bg);color:var(--accent);display:grid;place-items:center;font:700 28px "Space Grotesk",sans-serif;box-shadow:0 0 30px var(--glow);z-index:1; }
+    .blog-card-body { padding:23px 23px 20px; }
+    .blog-tag { display:inline-flex;align-items:center;gap:7px;color:var(--accent);font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase; }
+    .blog-tag::before { content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 9px var(--accent); }
+    .blog-card h3 { margin:13px 0 10px;font-size:20px;line-height:1.25;letter-spacing:-.025em; }
+    .blog-card p { color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:20px; }
+    .blog-card-bottom { display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--border);padding-top:14px;color:var(--faint);font-size:11px; }
+    .blog-read { color:var(--accent);font-size:12px;font-weight:800;white-space:nowrap; }
+    .blog-read:hover { text-decoration:underline;text-underline-offset:4px; }
+    .blog-empty { display:none;text-align:center;padding:32px;border:1px dashed var(--border);border-radius:18px;color:var(--muted); }
+    .blog-cta { margin:0 8% 70px;padding:30px 32px;border:1px solid var(--border);border-radius:22px;background:linear-gradient(120deg,var(--glow),transparent 70%),var(--panel);display:flex;align-items:center;justify-content:space-between;gap:22px; }
+    .blog-cta h3 { font-size:24px;margin-bottom:8px; }
+    .blog-cta p { color:var(--muted);font-size:13px;line-height:1.7;max-width:620px; }
+    .blog-cta .btn { flex:none; }
+    @media(max-width:1100px) { .blog-grid{grid-template-columns:repeat(2,minmax(0,1fr));} .blog-hero{gap:25px;} }
+    @media(max-width:900px) { .blog-hero{grid-template-columns:1fr;padding:55px 6% 45px;gap:30px;} .blog-hero-visual{min-height:230px;max-width:550px;width:100%;} .blog-section{padding:55px 6% 65px;} .blog-cta{margin:0 6% 55px;} }
+    @media(max-width:600px) { .blog-hero h2{font-size:clamp(42px,12vw,62px);} .blog-hero p{font-size:15px;} .blog-grid{grid-template-columns:1fr;} .blog-card{min-height:0;} .blog-card-art{height:135px;} .blog-toolbar{align-items:stretch;} .blog-search{width:100%;} .blog-cta{padding:24px;align-items:flex-start;flex-direction:column;} .blog-cta .btn{width:100%;justify-content:center;} }
+  </style>
+</head>
+<body>
+  <div class="green-pulse"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">H₂</div>
+      <div><h1>Hydrogen</h1><span>Student Learning Hub</span></div>
+    </div>
+    <button class="close-btn" id="closeSidebar" aria-label="Close menu">×</button>
+    <nav aria-label="Main navigation">
+      <a href="index.html">⌂ <span>Home</span></a>
+      <a href="index.html#about">ⓘ <span>About</span></a>
+      <a href="index.html#tutorials">▣ <span>Tutorials</span></a>
+      <a href="studyguide.html">📚 <span>Study Guide</span></a>
+      <a href="projects.html">📡 <span>Projects</span></a>
+      <a href="blogs.html" class="active" aria-current="page">▤ <span>Blogs</span></a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
+      <span class="theme-label" id="themeLabel">Dark Mode</span>
+      <span class="theme-switch" aria-hidden="true"><span class="knob"><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" fill="none"/></svg></span></span>
+    </button>
+    <div class="sidebar-footer"><span class="dot"></span> Made by school students</div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <button class="menu-btn" id="openSidebar" aria-label="Open menu">☰</button>
+      <div class="mini-brand">Hydrogen</div>
+      <div class="top-actions">
+        <a href="#articles" class="top-link">Explore Blogs</a>
+        <button class="theme-mini" type="button" aria-label="Toggle light and dark mode" data-theme-toggle><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" fill="none"/></svg></button>
+      </div>
+    </header>
+
+    <section class="blog-hero">
+      <div class="hero-text">
+        <div class="eyebrow"><span class="blink-dot"></span> READ • THINK • DISCOVER</div>
+        <h2>Ideas that <span>move us forward.</span></h2>
+        <p>A space for curious minds to explore science, technology, mathematics, electronics, the environment and original student ideas.</p>
+        <div class="hero-actions">
+          <a href="#articles" class="btn primary">Explore Articles →</a>
+          <a href="#contribute" class="btn secondary">Share Your Work</a>
+        </div>
+      </div>
+      <div class="blog-hero-visual" aria-label="Blog and ideas illustration">
+        <div class="blog-orbit"><strong>&lt;/&gt;</strong></div>
+        <div class="blog-visual-caption">CURIOSITY • KNOWLEDGE • CREATIVITY</div>
+      </div>
+    </section>
+
+    <section class="blog-section" id="articles">
+      <div class="section-heading">
+        <span>01</span>
+        <div><p class="eyebrow">THE HYDROGEN JOURNAL</p><h2>Explore our <span>articles.</span></h2></div>
+      </div>
+      <div class="blog-toolbar">
+        <p style="color:var(--muted);font-size:14px">Fresh perspectives for a curious mind.</p>
+        <label class="blog-search"><span aria-hidden="true">⌕</span><input type="search" id="blogSearch" placeholder="Search articles..." aria-label="Search blog articles"></label>
+      </div>
+      <div class="blog-filters" role="group" aria-label="Filter articles">
+        <button class="blog-filter active" data-filter="all" aria-pressed="true">All topics</button>
+        <button class="blog-filter" data-filter="technology" aria-pressed="false">Technology</button>
+        <button class="blog-filter" data-filter="science" aria-pressed="false">Science</button>
+        <button class="blog-filter" data-filter="electronics" aria-pressed="false">Electronics</button>
+        <button class="blog-filter" data-filter="environment" aria-pressed="false">Environment</button>
+        <button class="blog-filter" data-filter="mathematics" aria-pressed="false">Mathematics</button>
+        <button class="blog-filter" data-filter="projects" aria-pressed="false">Projects</button>
+      </div>
+
+      <div class="blog-grid" id="blogGrid">
+       <!-- <article class="blog-card" data-category="technology" data-search="internet website browser server web technology html coding">
+          <div class="blog-card-art"><span>&lt;/&gt;</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Technology</span><h3>How Does the Internet Work?</h3><p>A beginner-friendly introduction to websites, browsers, servers and how information travels across the web.</p><div class="blog-card-bottom"><span>6 min read</span><a class="blog-read" href="#contribute">Read article ↗</a></div></div>
+        </article> -->
+  <!--      <article class="blog-card" data-category="science" data-search="scientific method hypothesis experiment observation evidence science">
+          <div class="blog-card-art"><span>⚗</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Design</span><h3>Blender Tutorial</h3><p>Discover how to use Blender for creating 3D models and more.</p><div class="blog-card-bottom"><span>5 min read</span><a class="blog-read" href="blender-masterclass.html">Read article ↗</a></div></div>
+        </article> -->
+        <article class="blog-card" data-category="technology" data-search="git github version control repository commits software development programming collaboration">
+          <div class="blog-card-art"><span>GIT</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Technology</span><h3>Git and GitHub</h3><p>Understand version control, repositories and how GitHub helps developers host projects and collaborate.</p><div class="blog-card-bottom"><span>4 min read</span><a class="blog-read" href="git-and-github.html">Read article ↗</a></div></div>
+        </article>
+   <!--     <article class="blog-card" data-category="electronics" data-search="arduino sensors microcontroller electronics circuit coding input output">
+          <div class="blog-card-art"><span>⌁</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Electronics</span><h3>Getting Started with Arduino and Sensors</h3><p>Learn how a microcontroller reads sensor signals and uses them to control outputs in a practical project.</p><div class="blog-card-bottom"><span>7 min read</span><a class="blog-read" href="#contribute">Read article ↗</a></div></div>
+        </article> -->
+        <article class="blog-card" data-category="environment" data-search="environment pollution recycling waste sustainability climate nature">
+          <div class="blog-card-art"><span>♧</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Environment</span><h3>Small Ideas for a Greener Community</h3><p>Explore practical ways to reduce waste, conserve resources and observe changes in your surroundings.</p><div class="blog-card-bottom"><span>4 min read</span><a class="blog-read" href="greener-community.html">Read article ↗</a></div></div>
+        </article>
+    <!--    <article class="blog-card" data-category="mathematics" data-search="mathematics maths patterns algebra geometry daily life problem solving">
+          <div class="blog-card-art"><span>∑</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Mathematics</span><h3>Where Mathematics Hides in Everyday Life</h3><p>From patterns and measurement to proportions, maths helps explain everyday problems and decisions.</p><div class="blog-card-bottom"><span>5 min read</span><a class="blog-read" href="#contribute">Read article ↗</a></div></div>
+        </article> -->
+      <!--  <article class="blog-card" data-category="projects" data-search="student project prototype planning testing documentation invention ideas">
+          <div class="blog-card-art"><span>⚙</span></div>
+          <div class="blog-card-body"><span class="blog-tag">Projects</span><h3>Turn an Idea into a Working Prototype</h3><p>A simple workflow for defining a problem, planning a build, testing it carefully and recording results.</p><div class="blog-card-bottom"><span>6 min read</span><a class="blog-read" href="#contribute">Read article ↗</a></div></div>
+        </article> -->
+      </div>
+      <div class="blog-empty" id="blogEmpty">No articles found. Try another search term or category.</div>
+    </section>
+
+    <section class="blog-cta" id="contribute">
+      <div><h3>Have an idea worth sharing?</h3><p>Share an original article, science or technology report, creative work, or project with HydrogenGo. Selected submissions may be featured on the website.</p></div>
+      <a class="btn primary" href="https://forms.gle/PyYU1roiR1XCvZ848" target="_blank" rel="noopener noreferrer">Submit Your Work ↗</a>
+    </section>
+
+    <footer><strong>H₂ Hydrogen</strong><span>Made with curiosity by school students.</span></footer>
+  </main>
+  <script src="script.js"></script>
+  <script>
+    (() => {
+      const search = document.getElementById('blogSearch');
+      const filters = [...document.querySelectorAll('.blog-filter')];
+      const cards = [...document.querySelectorAll('.blog-card')];
+      const empty = document.getElementById('blogEmpty');
+      let category = 'all';
+      function update() {
+        const q = search.value.trim().toLowerCase();
+        let count = 0;
+        cards.forEach(card => {
+          const matchesCategory = category === 'all' || card.dataset.category === category;
+          const matchesSearch = (card.innerText + ' ' + card.dataset.search).toLowerCase().includes(q);
+          const visible = matchesCategory && matchesSearch;
+          card.hidden = !visible;
+          if (visible) count++;
+        });
+        empty.style.display = count ? 'none' : 'block';
+      }
+      search.addEventListener('input', update);
+      filters.forEach(button => button.addEventListener('click', () => {
+        category = button.dataset.filter;
+        filters.forEach(item => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+        update();
+      }));
+      // Keep the same cursor spotlight interaction as Hydrogen's existing cards.
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.addEventListener('pointermove', event => {
+          const card = event.target.closest?.('.blog-card');
+          if (!card) return;
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+          card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+        }, { passive: true });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#040c08">
+  <script>
+    (function () {
+      var r = document.documentElement, t = "dark";
+      try { if (localStorage.getItem("hydrogen-theme") === "light") t = "light"; } catch (e) {}
+      r.setAttribute("data-theme", t);
+      r.classList.add("js");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Learn what Git and GitHub are, how version control works, and why developers use GitHub to host and collaborate on repositories. By Tanvir Hussain.">
+  <title>Git and GitHub | Hydrogen Blogs</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="sources/favicon.png" type="image/png">
+  <style>
+    .post-hero { padding:64px 8% 40px; max-width:1200px; }
+    .post-hero h2 { margin:20px 0 18px; font-size:clamp(36px,5.6vw,66px); line-height:1.02; letter-spacing:-.045em; max-width:900px; }
+    .post-hero h2 span { background:linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation:shimmer 6s linear infinite; }
+    .post-hero .lead { max-width:740px; color:var(--muted); font-size:17px; line-height:1.75; }
+    .post-meta { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 28px; }
+    .post-meta span { padding:7px 13px; border:1px solid var(--border); border-radius:99px; background:var(--link-bg); color:var(--muted); font-size:12px; font-weight:600; }
+    .back-link { color:var(--accent); font-size:13px; font-weight:700; }
+    .back-link:hover { text-decoration:underline; text-underline-offset:4px; }
+    .post-layout { display:grid; grid-template-columns:240px minmax(0,1fr); gap:44px; padding:48px 8% 70px; background:var(--band); border-top:1px solid var(--border); align-items:start; }
+    .toc { position:sticky; top:84px; padding:20px; border:1px solid var(--border); border-radius:18px; background:var(--panel); }
+    .toc h4 { font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .toc ol { list-style:none; display:grid; gap:2px; }
+    .toc a { display:block; padding:7px 10px; border-radius:9px; color:var(--muted); font-size:13px; line-height:1.4; border-left:2px solid transparent; transition:color .2s,background .2s; }
+    .toc a:hover { color:var(--text); background:var(--link-bg); }
+    .toc a.on { color:var(--accent); background:var(--link-bg-hover); border-left-color:var(--accent); font-weight:700; }
+    .toc .btn { width:100%; justify-content:center; margin-top:14px; padding:11px 14px; font-size:13px; }
+    .toc-mobile { display:none; }
+    .prose { min-width:0; max-width:780px; }
+    .prose section { padding-bottom:42px; margin-bottom:42px; border-bottom:1px solid var(--border); scroll-margin-top:84px; content-visibility:auto; contain-intrinsic-size:auto 500px; }
+    .prose section:last-of-type { border-bottom:0; margin-bottom:0; }
+    .prose .chap { color:var(--accent); font-size:11px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; }
+    .prose h3 { font-size:clamp(26px,3.4vw,36px); line-height:1.15; letter-spacing:-.03em; margin:10px 0 16px; }
+    .prose h4 { font-size:19px; margin:28px 0 12px; letter-spacing:-.015em; }
+    .prose p { color:var(--muted); font-size:16px; line-height:1.85; margin-bottom:16px; }
+    .prose p strong,.prose li strong { color:var(--text); }
+    .prose ul,.prose ol.steps { margin:0 0 20px; padding-left:0; list-style:none; display:grid; gap:10px; }
+    .prose ol.steps { counter-reset:s; }
+    .prose li { color:var(--muted); font-size:15px; line-height:1.75; padding-left:30px; position:relative; }
+    .prose ul li::before { content:""; position:absolute; left:6px; top:.7em; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px var(--accent); }
+    .prose ol.steps li { counter-increment:s; }
+    .prose ol.steps li::before { content:counter(s); position:absolute; left:0; top:.2em; width:21px; height:21px; border-radius:7px; background:var(--link-bg-hover); color:var(--accent); font:700 12px "Space Grotesk",sans-serif; display:grid; place-items:center; }
+    .callout { margin:22px 0; padding:16px 20px; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:14px; background:linear-gradient(120deg,var(--glow),transparent 80%),var(--panel); }
+    .callout strong { display:block; color:var(--accent); font-size:12px; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px; }
+    .callout p { margin:0; font-size:14.5px; line-height:1.75; }
+    .dl-card { margin:0 8% 70px; padding:30px 32px; border:1px solid var(--border); border-radius:22px; background:linear-gradient(120deg,var(--glow),transparent 70%),var(--panel); display:flex; align-items:center; justify-content:space-between; gap:22px; }
+    .dl-card h3 { font-size:24px; margin-bottom:8px; }
+    .dl-card p { color:var(--muted); font-size:13px; line-height:1.7; max-width:620px; }
+    .dl-actions { display:flex; flex-wrap:wrap; gap:10px; flex:none; }
+    @media(max-width:1000px) {
+      .post-layout { grid-template-columns:1fr; padding:36px 6% 56px; gap:24px; }
+      .toc { display:none; }
+      .toc-mobile { display:block; border:1px solid var(--border); border-radius:14px; background:var(--panel); padding:4px 16px; }
+      .toc-mobile summary { cursor:pointer; padding:12px 0; font-weight:700; font-size:14px; color:var(--accent); }
+      .toc-mobile ol { list-style:none; padding:0 0 12px; display:grid; gap:2px; }
+      .toc-mobile a { display:block; padding:8px 4px; color:var(--muted); font-size:14px; }
+      .toc-mobile .btn { width:100%; justify-content:center; margin:6px 0 12px; }
+      .post-hero { padding:52px 6% 34px; }
+      .dl-card { margin:0 6% 55px; }
+    }
+    @media(max-width:600px) {
+      .prose p { font-size:15px; }
+      .dl-card { padding:24px; flex-direction:column; align-items:flex-start; }
+      .dl-card .btn { width:100%; justify-content:center; }
+      .post-hero .hero-actions .btn { flex:1 1 100%; justify-content:center; }
+    }
+    @media print { .sidebar,.topbar,.toc,.toc-mobile,.dl-card,.green-pulse,.scroll-progress { display:none !important; } .content { margin-left:0 !important; } }
+  </style>
+</head>
+<body>
+  <div class="green-pulse"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">H₂</div><div><h1>Hydrogen</h1><span>Student Learning Hub</span></div></div>
+    <button class="close-btn" id="closeSidebar" aria-label="Close menu">×</button>
+    <nav aria-label="Main navigation">
+      <a href="index.html">⌂ <span>Home</span></a>
+      <a href="index.html#about">ⓘ <span>About</span></a>
+      <a href="index.html#tutorials">▣ <span>Tutorials</span></a>
+      <a href="studyguide.html">📚 <span>Study Guide</span></a>
+      <a href="projects.html">📡 <span>Projects</span></a>
+      <a href="blogs.html" class="active" aria-current="page">▤ <span>Blogs</span></a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
+      <span class="theme-label" id="themeLabel">Dark Mode</span>
+      <span class="theme-switch" aria-hidden="true"><span class="knob"><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8-1.8M4.9 19.1l-1.8-1.8M17.3 6.7l-1.8-1.8" fill="none"/></svg></span></span>
+    </button>
+    <div class="sidebar-footer"><span class="dot"></span> Made by school students</div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <button class="menu-btn" id="openSidebar" aria-label="Open menu">☰</button>
+      <a href="blogs.html" class="mini-brand">← Hydrogen Blogs</a>
+      <div class="top-actions">
+        <a href="#download" class="top-link">View PDF</a>
+        <button class="theme-mini" type="button" aria-label="Toggle light and dark mode" data-theme-toggle><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8-1.8M4.9 19.1l-1.8-1.8M17.3 6.7l-1.8-1.8" fill="none"/></svg></button>
+      </div>
+    </header>
+
+    <section class="post-hero">
+      <a class="back-link" href="blogs.html">← Back to all blogs</a>
+      <div class="eyebrow" style="margin-top:22px"><span class="blink-dot"></span> PROGRAMMING • VERSION CONTROL • DEVELOPMENT</div>
+      <h2>Understanding <span>Git and GitHub.</span></h2>
+      <p class="lead">Git helps developers track changes to their code, while GitHub provides an online place to host repositories and collaborate. Learn what each tool does, where they came from and why they work so well together.</p>
+      <div class="post-meta">
+        <span>💻 Programming</span>
+        <span>✍ Tanvir Hussain</span>
+        <span>📄 Original PDF included</span>
+        <span>📖 4 pages</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#ch1" class="btn primary">Start Reading ↓</a>
+        <a href="#download" class="btn secondary">View Original PDF</a>
+      </div>
+    </section>
+
+    <div class="post-layout">
+      <aside class="toc" aria-label="Table of contents">
+        <h4>Contents</h4>
+        <ol id="tocList">
+          <li><a href="#ch1">1 · Introduction</a></li>
+          <li><a href="#ch2">2 · What is Git?</a></li>
+          <li><a href="#ch3">3 · What is GitHub?</a></li>
+          <li><a href="#ch4">4 · Git vs GitHub</a></li>
+          <li><a href="#ch5">5 · Key takeaway</a></li>
+        </ol>
+        <a href="git-and-github.pdf" target="_blank" rel="noopener" class="btn primary">↗ View PDF</a>
+      </aside>
+
+      <article class="prose">
+        <details class="toc-mobile">
+          <summary>Table of contents</summary>
+          <ol>
+            <li><a href="#ch1">1 · Introduction</a></li>
+            <li><a href="#ch2">2 · What is Git?</a></li>
+            <li><a href="#ch3">3 · What is GitHub?</a></li>
+            <li><a href="#ch4">4 · Git vs GitHub</a></li>
+            <li><a href="#ch5">5 · Key takeaway</a></li>
+          </ol>
+          <a href="git-and-github.pdf" target="_blank" rel="noopener" class="btn primary">↗ View PDF</a>
+        </details>
+
+        <section id="ch1">
+          <span class="chap">Introduction</span>
+          <h3>Two names you will often hear in software development</h3>
+          <p>Git and GitHub are two commonly used tools in software development. Their names are often mentioned together, but they do not mean the same thing. Understanding the difference makes it easier to see how developers manage projects, preserve earlier versions of their work and collaborate with others.</p>
+          <p>This article introduces both tools, explains their purposes and shows how they fit into a developer's workflow.</p>
+          <div class="callout"><strong>The main idea</strong><p><strong>Git</strong> tracks changes in a project. <strong>GitHub</strong> is an online platform for hosting Git repositories and working with other developers.</p></div>
+        </section>
+
+        <section id="ch2">
+          <span class="chap">Part 01</span>
+          <h3>What is Git?</h3>
+          <p>Git is a free and open-source <strong>Version Control System (VCS)</strong> developed by Linus Torvalds in 2005. It allows developers to track changes made to source code over time, save earlier versions and return to those versions when needed.</p>
+          <h4>Why was Git created?</h4>
+          <p>While working on the Linux operating system and its kernel, Linus Torvalds faced the challenge of managing contributions from multiple developers. It was becoming difficult to keep track of changes, identify who had made them and maintain a stable codebase. Git was developed to help solve these version-management problems.</p>
+          <h4>What can Git do?</h4>
+          <ul>
+            <li><strong>Track changes:</strong> keep a record of how source code changes over time.</li>
+            <li><strong>Save versions:</strong> use commits to save changes in a local repository.</li>
+            <li><strong>Restore earlier work:</strong> return to previous versions when required.</li>
+            <li><strong>Work offline:</strong> make commits locally without needing a continuous internet connection.</li>
+            <li><strong>Share later:</strong> push local changes to a remote server when an internet connection is available.</li>
+          </ul>
+          <p>Git can be used on Windows, macOS and Linux distributions.</p>
+        </section>
+
+        <section id="ch3">
+          <span class="chap">Part 02</span>
+          <h3>What is GitHub?</h3>
+          <p>GitHub is a hosting platform where developers can store their Git repositories online. A repository may look like a project folder, but it also contains the version history tracked by Git.</p>
+          <p>Developers can push their code to GitHub and fetch or pull changes from remote repositories. The platform also provides tools that make software development and collaboration easier.</p>
+          <h4>What can you use GitHub for?</h4>
+          <ul>
+            <li><strong>Host repositories:</strong> keep project repositories online.</li>
+            <li><strong>Push changes:</strong> send local code updates to a remote repository.</li>
+            <li><strong>Fetch or pull changes:</strong> retrieve updates from remote repositories.</li>
+            <li><strong>Publish websites:</strong> host static websites using GitHub Pages.</li>
+            <li><strong>Collaborate:</strong> work on projects with other developers.</li>
+            <li><strong>Track issues:</strong> create and follow reports or tasks related to a project.</li>
+          </ul>
+          <div class="callout"><strong>Remember</strong><p>A Git repository contains the project's tracked history. GitHub gives you an online place to host that repository and share it with others.</p></div>
+        </section>
+
+        <section id="ch4">
+          <span class="chap">Part 03</span>
+          <h3>Are Git and GitHub the same?</h3>
+          <p>No. Although they are closely related, Git and GitHub have different purposes.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Git</th><th>GitHub</th></tr></thead>
+            <tbody>
+              <tr><td>A version control system.</td><td>An online hosting platform for Git repositories.</td></tr>
+              <tr><td>Tracks changes to code and records project history.</td><td>Stores repositories online so they can be accessed and shared.</td></tr>
+              <tr><td>Can create local commits and work offline.</td><td>Supports pushing, fetching and pulling changes between local and remote repositories.</td></tr>
+              <tr><td>Helps developers manage versions of their work.</td><td>Provides collaboration features such as repository hosting and issue tracking.</td></tr>
+            </tbody>
+          </table></div>
+          <p>One way to remember the difference is to think of Git as a personal assistant that keeps track of changes in your codebase. GitHub is like an online drawer where you can store your repository, keep its records and share it with others.</p>
+        </section>
+
+        <section id="ch5">
+          <span class="chap">Conclusion</span>
+          <h3>Different tools, working together</h3>
+          <p>Git manages and tracks your code, while GitHub helps you host and collaborate on it. Git records the development history of a project; GitHub makes repositories easier to store online, access and share.</p>
+          <p>Knowing the difference between these two tools is a useful first step towards understanding modern software development workflows.</p>
+          <p style="color:var(--faint);font-size:13px">Written by <strong>Tanvir Hussain</strong></p>
+        </section>
+      </article>
+    </div>
+
+    <section class="dl-card" id="download">
+      <div>
+        <h3>Read the original article PDF</h3>
+        <p>Prefer the original four-page document? Open <strong>git-and-github.pdf</strong> in your browser or download it for offline reading. Keep the PDF in the same folder as this HTML file.</p>
+      </div>
+      <div class="dl-actions">
+        <a class="btn primary" href="git-and-github.pdf" target="_blank" rel="noopener">↗ View PDF</a>
+        <a class="btn secondary" href="git-and-github.pdf" download="Git-and-GitHub-Tanvir-Hussain.pdf">⬇ Download PDF</a>
+      </div>
+    </section>
+
+    <footer><strong>H₂ Hydrogen</strong><span>Made with curiosity by school students.</span></footer>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll('#tocList a')];
+      const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            links.forEach(link => link.classList.remove('on'));
+            map.get(entry.target.id)?.classList.add('on');
+          });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        map.forEach((_, id) => {
+          const section = document.getElementById(id);
+          if (section) io.observe(section);
+        });
+      }
+      document.querySelectorAll('.toc-mobile a').forEach(link => {
+        link.addEventListener('click', () => { link.closest('details').open = false; });
+      });
+    })();
+  </script>
+</body>
+</html>

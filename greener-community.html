@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#040c08">
+  <script>
+    (function () {
+      var r = document.documentElement, t = "dark";
+      try { if (localStorage.getItem("hydrogen-theme") === "light") t = "light"; } catch (e) {}
+      r.setAttribute("data-theme", t);
+      r.classList.add("js");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Small Steps for a Greener Community by Rehan Hassan. Learn how planting trees, protecting water bodies, reducing waste and making thoughtful choices can help the environment.">
+  <title>Small Steps for a Greener Community | Hydrogen Blogs</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="sources/favicon.png" type="image/png">
+  <link rel="prefetch" href="envblog.pdf" as="document">
+  <style>
+    .post-hero { padding:64px 8% 40px; max-width:1200px; }
+    .post-hero h2 { margin:20px 0 18px; font-size:clamp(36px,5.6vw,66px); line-height:1.02; letter-spacing:-.045em; max-width:900px; }
+    .post-hero h2 span { background:linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation:shimmer 6s linear infinite; }
+    .post-hero .lead { max-width:740px; color:var(--muted); font-size:17px; line-height:1.75; }
+    .post-meta { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 28px; }
+    .post-meta span { padding:7px 13px; border:1px solid var(--border); border-radius:99px; background:var(--link-bg); color:var(--muted); font-size:12px; font-weight:600; }
+    .back-link { color:var(--accent); font-size:13px; font-weight:700; }
+    .back-link:hover { text-decoration:underline; text-underline-offset:4px; }
+    .post-layout { display:grid; grid-template-columns:240px minmax(0,1fr); gap:44px; padding:48px 8% 70px; background:var(--band); border-top:1px solid var(--border); align-items:start; }
+    .toc { position:sticky; top:84px; padding:20px; border:1px solid var(--border); border-radius:18px; background:var(--panel); }
+    .toc h4 { font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .toc ol { list-style:none; display:grid; gap:2px; }
+    .toc a { display:block; padding:7px 10px; border-radius:9px; color:var(--muted); font-size:13px; line-height:1.4; border-left:2px solid transparent; transition:color .2s,background .2s; }
+    .toc a:hover { color:var(--text); background:var(--link-bg); }
+    .toc a.on { color:var(--accent); background:var(--link-bg-hover); border-left-color:var(--accent); font-weight:700; }
+    .toc .btn { width:100%; justify-content:center; margin-top:14px; padding:11px 14px; font-size:13px; }
+    .toc-mobile { display:none; }
+    .prose { min-width:0; max-width:780px; }
+    .prose section { padding-bottom:42px; margin-bottom:42px; border-bottom:1px solid var(--border); scroll-margin-top:84px; content-visibility:auto; contain-intrinsic-size:auto 500px; }
+    .prose section:last-of-type { border-bottom:0; margin-bottom:0; }
+    .prose .chap { color:var(--accent); font-size:11px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; }
+    .prose h3 { font-size:clamp(26px,3.4vw,36px); line-height:1.15; letter-spacing:-.03em; margin:10px 0 16px; }
+    .prose h4 { font-size:19px; margin:28px 0 12px; letter-spacing:-.015em; }
+    .prose p { color:var(--muted); font-size:16px; line-height:1.85; margin-bottom:16px; }
+    .prose p strong,.prose li strong { color:var(--text); }
+    .prose ul,.prose ol.steps { margin:0 0 20px; padding-left:0; list-style:none; display:grid; gap:10px; }
+    .prose ol.steps { counter-reset:s; }
+    .prose li { color:var(--muted); font-size:15px; line-height:1.75; padding-left:30px; position:relative; }
+    .prose ul li::before { content:""; position:absolute; left:6px; top:.7em; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px var(--accent); }
+    .prose ol.steps li { counter-increment:s; }
+    .prose ol.steps li::before { content:counter(s); position:absolute; left:0; top:.2em; width:21px; height:21px; border-radius:7px; background:var(--link-bg-hover); color:var(--accent); font:700 12px "Space Grotesk",sans-serif; display:grid; place-items:center; }
+    .callout { margin:22px 0; padding:16px 20px; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:14px; background:linear-gradient(120deg,var(--glow),transparent 80%),var(--panel); }
+    .callout strong { display:block; color:var(--accent); font-size:12px; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px; }
+    .callout p { margin:0; font-size:14.5px; line-height:1.75; }
+    .dl-card { margin:0 8% 70px; padding:30px 32px; border:1px solid var(--border); border-radius:22px; background:linear-gradient(120deg,var(--glow),transparent 70%),var(--panel); display:flex; align-items:center; justify-content:space-between; gap:22px; }
+    .dl-card h3 { font-size:24px; margin-bottom:8px; }
+    .dl-card p { color:var(--muted); font-size:13px; line-height:1.7; max-width:620px; }
+    .dl-actions { display:flex; flex-wrap:wrap; gap:10px; flex:none; }
+    .dl-card .btn { flex:none; }
+    @media(max-width:1000px) {
+      .post-layout { grid-template-columns:1fr; padding:36px 6% 56px; gap:24px; }
+      .toc { display:none; }
+      .toc-mobile { display:block; border:1px solid var(--border); border-radius:14px; background:var(--panel); padding:4px 16px; margin-bottom:28px; }
+      .toc-mobile summary { cursor:pointer; padding:12px 0; font-weight:700; font-size:14px; color:var(--accent); }
+      .toc-mobile ol { list-style:none; padding:0 0 12px; display:grid; gap:2px; }
+      .toc-mobile a { display:block; padding:8px 4px; color:var(--muted); font-size:14px; }
+      .toc-mobile .btn { width:100%; justify-content:center; margin:6px 0 12px; }
+      .post-hero { padding:52px 6% 34px; }
+      .dl-card { margin:0 6% 55px; }
+    }
+    @media(max-width:600px) {
+      .prose p { font-size:15px; }
+      .dl-card { padding:24px; flex-direction:column; align-items:flex-start; }
+      .dl-actions { width:100%; flex-direction:column; }
+      .dl-card .btn { width:100%; justify-content:center; }
+      .post-hero .hero-actions .btn { flex:1 1 100%; justify-content:center; }
+    }
+    @media print { .sidebar,.topbar,.toc,.toc-mobile,.dl-card,.green-pulse,.scroll-progress { display:none !important; } .content { margin-left:0 !important; } }
+  </style>
+</head>
+<body>
+  <div class="green-pulse"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">H₂</div>
+      <div><h1>Hydrogen</h1><span>Student Learning Hub</span></div>
+    </div>
+    <button class="close-btn" id="closeSidebar" aria-label="Close menu">×</button>
+    <nav aria-label="Main navigation">
+      <a href="index.html">⌂ <span>Home</span></a>
+      <a href="index.html#about">ⓘ <span>About</span></a>
+      <a href="index.html#tutorials">▣ <span>Tutorials</span></a>
+      <a href="studyguide.html">📚 <span>Study Guide</span></a>
+      <a href="projects.html">📡 <span>Projects</span></a>
+      <a href="blogs.html" class="active" aria-current="page">▤ <span>Blogs</span></a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
+      <span class="theme-label" id="themeLabel">Dark Mode</span>
+      <span class="theme-switch" aria-hidden="true"><span class="knob"><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" fill="none"/></svg></span></span>
+    </button>
+    <div class="sidebar-footer"><span class="dot"></span> Made by school students</div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <button class="menu-btn" id="openSidebar" aria-label="Open menu">☰</button>
+      <a href="blogs.html" class="mini-brand">← Hydrogen Blogs</a>
+      <div class="top-actions">
+        <a href="#download" class="top-link">View PDF</a>
+        <button class="theme-mini" type="button" aria-label="Toggle light and dark mode" data-theme-toggle><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" fill="none"/></svg></button>
+      </div>
+    </header>
+
+    <section class="post-hero">
+      <a class="back-link" href="blogs.html">← Back to all blogs</a>
+      <div class="eyebrow" style="margin-top:22px"><span class="blink-dot"></span> ENVIRONMENT • NATURE • COMMUNITY</div>
+      <h2>Small Steps for a <span>Greener Community.</span></h2>
+      <p class="lead">A greener future begins with everyday choices. By protecting trees, keeping water bodies clean, reducing waste and choosing more sustainable habits, each of us can help build a healthier community.</p>
+      <div class="post-meta">
+        <span>🌱 Environment</span>
+        <span>✍ Rehan Hassan</span>
+        <span>📄 Original PDF included</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#ch1" class="btn primary">Start Reading ↓</a>
+        <a href="#download" class="btn secondary">View Original PDF</a>
+      </div>
+    </section>
+
+    <div class="post-layout">
+      <aside class="toc" aria-label="Table of contents">
+        <h4>Contents</h4>
+        <ol id="tocList">
+          <li><a href="#ch1">1 · Why nature matters</a></li>
+          <li><a href="#ch2">2 · Trees and forests</a></li>
+          <li><a href="#ch3">3 · Water bodies</a></li>
+          <li><a href="#ch4">4 · Environmental threats</a></li>
+          <li><a href="#ch5">5 · Small steps we can take</a></li>
+          <li><a href="#ch6">6 · Conclusion</a></li>
+        </ol>
+        <a href="envblog.pdf" target="_blank" rel="noopener" class="btn primary">↗ View PDF</a>
+      </aside>
+
+      <article class="prose">
+        <details class="toc-mobile">
+          <summary>Table of contents</summary>
+          <ol>
+            <li><a href="#ch1">1 · Why nature matters</a></li>
+            <li><a href="#ch2">2 · Trees and forests</a></li>
+            <li><a href="#ch3">3 · Water bodies</a></li>
+            <li><a href="#ch4">4 · Environmental threats</a></li>
+            <li><a href="#ch5">5 · Small steps we can take</a></li>
+            <li><a href="#ch6">6 · Conclusion</a></li>
+          </ol>
+        </details>
+
+        <section id="ch1">
+          <span class="chap">Introduction</span>
+          <h3>Why a greener community matters</h3>
+          <p>Nature makes the Earth beautiful and provides the conditions that allow living organisms to survive. Trees, forests, rivers, lakes, waterfalls and oceans are all important parts of our natural environment.</p>
+          <p>For a greener community, we should plant more trees, avoid dumping waste in public places and water bodies, reduce unnecessary plastic use and make thoughtful choices about the products and energy we use. Protecting nature is not only the responsibility of governments or organisations; it is something every individual can contribute to.</p>
+          <div class="callout"><strong>A shared responsibility</strong><p>Small actions become powerful when many people practise them consistently. A cleaner street, a protected tree or a litter-free waterway all contribute to a healthier environment.</p></div>
+        </section>
+
+        <section id="ch2">
+          <span class="chap">Part 01</span>
+          <h3>Trees and forests: the green foundation</h3>
+          <p>Trees play an essential role in keeping ecosystems healthy. Through photosynthesis, they absorb carbon dioxide and release oxygen. They also help improve air quality by trapping some airborne particles and providing shade that can cool surrounding areas.</p>
+          <p>Many trees together form forests and jungles, which provide homes and food for a wide variety of animals, birds, insects, fungi and plants. Tree roots also help hold soil in place, reducing erosion and helping protect slopes from becoming unstable.</p>
+          <ul>
+            <li><strong>Support for wildlife:</strong> forests provide habitats, nesting places and food for many species.</li>
+            <li><strong>Healthier soil:</strong> roots help bind soil and reduce the risk of erosion.</li>
+            <li><strong>Climate benefits:</strong> trees store carbon and provide shade, helping moderate local temperatures.</li>
+            <li><strong>Cleaner surroundings:</strong> trees can trap dust and contribute to a more pleasant local environment.</li>
+          </ul>
+        </section>
+
+        <section id="ch3">
+          <span class="chap">Part 02</span>
+          <h3>Water bodies: homes for aquatic life</h3>
+          <p>Rivers, lakes, waterfalls, wetlands and oceans are beautiful and important parts of the natural world. They provide habitats for fish, plants and countless other aquatic organisms, while also supporting people, agriculture and surrounding ecosystems.</p>
+          <p>Oceans are especially important to the global environment. Tiny marine organisms called phytoplankton produce a substantial share of the oxygen generated on Earth through photosynthesis. This is one reason healthy oceans and waterways matter to life across the planet.</p>
+          <div class="callout"><strong>Protect every waterway</strong><p>Waste thrown into a drain, stream or river can travel far beyond the place where it was discarded. Keeping local water bodies clean helps protect aquatic life and people downstream.</p></div>
+        </section>
+
+        <section id="ch4">
+          <span class="chap">Part 03</span>
+          <h3>Environmental threats that make the Earth less habitable</h3>
+          <h4>I. Deforestation</h4>
+          <p>Deforestation is the large-scale removal of trees and forests. It can happen when land is cleared for houses, roads, factories, other infrastructure and agriculture, or when trees are cut for timber and paper products.</p>
+          <p>When forests disappear, animals and birds lose their habitats. Deforestation also reduces the amount of carbon stored by forests and can worsen climate change. Without tree roots to hold the soil together, erosion and the risk of landslides can increase in vulnerable areas.</p>
+
+          <h4>II. Dumping waste into water bodies</h4>
+          <p>Dumping rubbish, untreated sewage and industrial chemicals into rivers and lakes pollutes water and can make it unsafe for people and wildlife. Pollution can harm aquatic organisms, damage habitats and block drains. The Ganga and Yamuna are examples of major Indian rivers that need continued protection and cleaning efforts.</p>
+
+          <h4>III. Air pollution</h4>
+          <p>Smoke and emissions from vehicles, factories and power generation can release pollutants into the air. Dust from construction and mining, along with other industrial activities, can also affect air quality. Cities such as Delhi and Ghaziabad are often discussed in connection with serious air-pollution challenges.</p>
+          <p>Air pollution can affect human health, plants, animals and the wider environment. Reducing emissions and using energy more efficiently are important steps towards cleaner air.</p>
+        </section>
+
+        <section id="ch5">
+          <span class="chap">Part 04</span>
+          <h3>Small steps we can take</h3>
+          <p>Protecting the environment does not always require large projects. Simple habits, practised regularly by individuals and communities, can make a meaningful difference.</p>
+          <ol class="steps">
+            <li><strong>Afforestation:</strong> plant suitable native trees and take care of them as they grow. Planting should be planned so that the right species are chosen for the local area.</li>
+            <li><strong>Use dustbins and sort waste:</strong> place waste in the correct bins, separate recyclable materials where facilities exist and never throw rubbish into drains, streets, rivers or lakes.</li>
+            <li><strong>Choose cleaner technology:</strong> use energy-efficient appliances and support cleaner transport options where practical. Electric vehicles can reduce exhaust pollution at the point of use, although the overall environmental impact also depends on how electricity and batteries are produced.</li>
+            <li><strong>Reduce plastic waste:</strong> avoid unnecessary single-use plastic, carry reusable bags and bottles, and reuse or recycle items whenever possible.</li>
+            <li><strong>Save water and electricity:</strong> turn off taps and lights when they are not needed, repair leaks and avoid wasting resources.</li>
+            <li><strong>Keep public places clean:</strong> take part in local clean-up activities and encourage others to care for shared spaces.</li>
+          </ol>
+          <div class="callout"><strong>Start close to home</strong><p>Choose one practical action this week: plant and care for a tree, organise waste properly, reduce disposable plastic or help keep a nearby public space clean.</p></div>
+        </section>
+
+        <section id="ch6">
+          <span class="chap">Conclusion</span>
+          <h3>A greener future starts with us</h3>
+          <p>A greener community begins with small actions taken by every individual. By planting trees, saving water, reducing plastic and keeping our surroundings clean, we can help create a healthier and cleaner environment.</p>
+          <p>Let us work together—at home, in school and throughout our neighbourhoods—to protect nature and make our planet a better place to live.</p>
+          <p style="color:var(--faint);font-size:13px">Written by <strong>Rehan Hassan</strong></p>
+        </section>
+      </article>
+    </div>
+
+    <section class="dl-card" id="download">
+      <div>
+        <h3>Read the original article PDF</h3>
+        <p>Prefer the original document? Open <strong>envblog.pdf</strong> in your browser or download it to read offline. Keep the PDF in the same folder as this HTML file.</p>
+      </div>
+      <div class="dl-actions">
+        <a class="btn primary" href="envblog.pdf" target="_blank" rel="noopener">↗ View PDF</a>
+        <a class="btn secondary" href="envblog.pdf" download="envblog.pdf">⬇ Download PDF</a>
+      </div>
+    </section>
+
+    <footer><strong>H₂ Hydrogen</strong><span>Made with curiosity by school students.</span></footer>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll('#tocList a')];
+      const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            links.forEach(link => link.classList.remove('on'));
+            map.get(entry.target.id)?.classList.add('on');
+          });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        map.forEach((_, id) => {
+          const section = document.getElementById(id);
+          if (section) io.observe(section);
+        });
+      }
+      document.querySelectorAll('.toc-mobile a').forEach(link => {
+        link.addEventListener('click', () => { link.closest('details').open = false; });
+      });
+    })();
+  </script>
+</body>
+</html>
