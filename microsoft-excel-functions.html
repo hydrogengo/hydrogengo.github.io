@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#040c08">
+  <script>
+    (function () {
+      var r = document.documentElement, t = "dark";
+      try { if (localStorage.getItem("hydrogen-theme") === "light") t = "light"; } catch (e) {}
+      r.setAttribute("data-theme", t);
+      r.classList.add("js");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Explore Microsoft Excel and its text and numerical functions, with simple examples. By Tanvir Hussain.">
+  <title>Microsoft Excel Functions | Hydrogen Blogs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="sources/favicon.png" type="image/png">
+  <style>
+    .post-hero { padding:64px 8% 40px; max-width:1200px; }
+    .post-hero h2 { margin:20px 0 18px; font-size:clamp(36px,5.6vw,66px); line-height:1.02; letter-spacing:-.045em; max-width:900px; }
+    .post-hero h2 span { background:linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent)); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation:shimmer 6s linear infinite; }
+    .post-hero .lead { max-width:740px; color:var(--muted); font-size:17px; line-height:1.75; }
+    .post-meta { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 28px; }
+    .post-meta span { padding:7px 13px; border:1px solid var(--border); border-radius:99px; background:var(--link-bg); color:var(--muted); font-size:12px; font-weight:600; }
+    .back-link { color:var(--accent); font-size:13px; font-weight:700; }
+    .back-link:hover { text-decoration:underline; text-underline-offset:4px; }
+    .post-layout { display:grid; grid-template-columns:240px minmax(0,1fr); gap:44px; padding:48px 8% 70px; background:var(--band); border-top:1px solid var(--border); align-items:start; }
+    .toc { position:sticky; top:84px; padding:20px; border:1px solid var(--border); border-radius:18px; background:var(--panel); }
+    .toc h4 { font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .toc ol { list-style:none; display:grid; gap:2px; }
+    .toc a { display:block; padding:7px 10px; border-radius:9px; color:var(--muted); font-size:13px; line-height:1.4; border-left:2px solid transparent; transition:color .2s,background .2s; }
+    .toc a:hover { color:var(--text); background:var(--link-bg); }
+    .toc a.on { color:var(--accent); background:var(--link-bg-hover); border-left-color:var(--accent); font-weight:700; }
+    .toc .btn { width:100%; justify-content:center; margin-top:14px; padding:11px 14px; font-size:13px; }
+    .toc-mobile { display:none; }
+    .prose { min-width:0; max-width:780px; }
+    .prose section { padding-bottom:42px; margin-bottom:42px; border-bottom:1px solid var(--border); scroll-margin-top:84px; content-visibility:auto; contain-intrinsic-size:auto 500px; }
+    .prose section:last-of-type { border-bottom:0; margin-bottom:0; }
+    .prose .chap { color:var(--accent); font-size:11px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; }
+    .prose h3 { font-size:clamp(26px,3.4vw,36px); line-height:1.15; letter-spacing:-.03em; margin:10px 0 16px; }
+    .prose h4 { font-size:19px; margin:28px 0 12px; letter-spacing:-.015em; }
+    .prose p { color:var(--muted); font-size:16px; line-height:1.85; margin-bottom:16px; }
+    .prose p strong,.prose li strong { color:var(--text); }
+    /* Function tables: swipe or scroll horizontally on smaller screens. */
+    .function-table-scroll {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--link-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 18px 0 22px;
+      outline-offset: 4px;
+    }
+    .function-table-scroll:focus-visible {
+      outline: 2px solid var(--accent);
+    }
+    .function-table-scroll table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+    }
+    .function-table-scroll th,
+    .function-table-scroll td {
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .function-table-scroll td:first-child {
+      min-width: 230px;
+    }
+    .function-table-scroll td:nth-child(2) {
+      min-width: 190px;
+    }
+    .function-table-scroll td:nth-child(3) {
+      min-width: 210px;
+    }
+    .prose ul,.prose ol.steps { margin:0 0 20px; padding-left:0; list-style:none; display:grid; gap:10px; }
+    .prose ol.steps { counter-reset:s; }
+    .prose li { color:var(--muted); font-size:15px; line-height:1.75; padding-left:30px; position:relative; }
+    .prose ul li::before { content:""; position:absolute; left:6px; top:.7em; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px var(--accent); }
+    .prose ol.steps li { counter-increment:s; }
+    .prose ol.steps li::before { content:counter(s); position:absolute; left:0; top:.2em; width:21px; height:21px; border-radius:7px; background:var(--link-bg-hover); color:var(--accent); font:700 12px "Space Grotesk",sans-serif; display:grid; place-items:center; }
+    .callout { margin:22px 0; padding:16px 20px; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:14px; background:linear-gradient(120deg,var(--glow),transparent 80%),var(--panel); }
+    .callout strong { display:block; color:var(--accent); font-size:12px; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px; }
+    .callout p { margin:0; font-size:14.5px; line-height:1.75; }
+    .dl-card { margin:0 8% 70px; padding:30px 32px; border:1px solid var(--border); border-radius:22px; background:linear-gradient(120deg,var(--glow),transparent 70%),var(--panel); display:flex; align-items:center; justify-content:space-between; gap:22px; }
+    .dl-card h3 { font-size:24px; margin-bottom:8px; }
+    .dl-card p { color:var(--muted); font-size:13px; line-height:1.7; max-width:620px; }
+    .dl-actions { display:flex; flex-wrap:wrap; gap:10px; flex:none; }
+    @media(max-width:1000px) {
+      .post-layout { grid-template-columns:1fr; padding:36px 6% 56px; gap:24px; }
+      .toc { display:none; }
+      .toc-mobile { display:block; border:1px solid var(--border); border-radius:14px; background:var(--panel); padding:4px 16px; }
+      .toc-mobile summary { cursor:pointer; padding:12px 0; font-weight:700; font-size:14px; color:var(--accent); }
+      .toc-mobile ol { list-style:none; padding:0 0 12px; display:grid; gap:2px; }
+      .toc-mobile a { display:block; padding:8px 4px; color:var(--muted); font-size:14px; }
+      .toc-mobile .btn { width:100%; justify-content:center; margin:6px 0 12px; }
+      .post-hero { padding:52px 6% 34px; }
+      .dl-card { margin:0 6% 55px; }
+    }
+    @media(max-width:600px) {
+      .prose p { font-size:15px; }
+      .dl-card { padding:24px; flex-direction:column; align-items:flex-start; }
+      .dl-card .btn { width:100%; justify-content:center; }
+      .post-hero .hero-actions .btn { flex:1 1 100%; justify-content:center; }
+    }
+    @media print { .sidebar,.topbar,.toc,.toc-mobile,.dl-card,.green-pulse,.scroll-progress { display:none !important; } .content { margin-left:0 !important; } }
+  </style>
+</head>
+<body>
+  <div class="green-pulse"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">H₂</div><div><h1>Hydrogen</h1><span>Student Learning Hub</span></div></div>
+    <button class="close-btn" id="closeSidebar" aria-label="Close menu">×</button>
+    <nav aria-label="Main navigation">
+      <a href="index.html">⌂ <span>Home</span></a>
+      <a href="index.html#about">ⓘ <span>About</span></a>
+      <a href="index.html#tutorials">▣ <span>Tutorials</span></a>
+      <a href="studyguide.html">📚 <span>Study Guide</span></a>
+      <a href="projects.html">📡 <span>Projects</span></a>
+      <a href="blogs.html" class="active" aria-current="page">▤ <span>Blogs</span></a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
+      <span class="theme-label" id="themeLabel">Dark Mode</span>
+      <span class="theme-switch" aria-hidden="true"><span class="knob"><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8-1.8M4.9 19.1l-1.8-1.8M17.3 6.7l-1.8-1.8" fill="none"/></svg></span></span>
+    </button>
+    <div class="sidebar-footer"><span class="dot"></span> Made by school students</div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <button class="menu-btn" id="openSidebar" aria-label="Open menu">☰</button>
+      <a href="blogs.html" class="mini-brand">← Hydrogen Blogs</a>
+      <div class="top-actions">
+        <a href="#download" class="top-link">View PDF</a>
+        <button class="theme-mini" type="button" aria-label="Toggle light and dark mode" data-theme-toggle><svg class="ico moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8-1.8M4.9 19.1l-1.8-1.8M17.3 6.7l-1.8-1.8" fill="none"/></svg></button>
+      </div>
+    </header>
+
+    <section class="post-hero">
+      <a class="back-link" href="blogs.html">← Back to all blogs</a>
+      <div class="eyebrow" style="margin-top:22px"><span class="blink-dot"></span> COMPUTER SCIENCE • SPREADSHEETS • EXCEL</div>
+      <h2>Exploring <span>Microsoft Excel.</span></h2>
+      <p class="lead">Discover how Microsoft Excel organises information in rows, columns and cells, and learn how text and numerical functions make working with data easier.</p>
+      <div class="post-meta">
+        <span>📊 Computer Science</span>
+        <span>✍ Tanvir Hussain</span>
+        <span>📄 Original PDF included</span>
+        <span>📖 6 pages</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#ch1" class="btn primary">Start Reading ↓</a>
+        <a href="#download" class="btn secondary">View Original PDF</a>
+      </div>
+    </section>
+
+    <div class="post-layout">
+      <aside class="toc" aria-label="Table of contents">
+        <h4>Contents</h4>
+        <ol id="tocList">
+          <li><a href="#ch1">1 · Introduction</a></li>
+          <li><a href="#ch2">2 · Functions in Excel</a></li>
+          <li><a href="#ch3">3 · Text Functions</a></li>
+          <li><a href="#ch4">4 · Numerical Functions</a></li>
+          <li><a href="#ch5">5 · Key Takeaways</a></li>
+        </ol>
+        <a href="microsoft-excel-project.pdf" target="_blank" rel="noopener" class="btn primary">↗ View PDF</a>
+      </aside>
+
+      <article class="prose">
+        <details class="toc-mobile">
+          <summary>Table of contents</summary>
+          <ol>
+            <li><a href="#ch1">1 · Introduction</a></li>
+            <li><a href="#ch2">2 · Functions in Excel</a></li>
+            <li><a href="#ch3">3 · Text Functions</a></li>
+            <li><a href="#ch4">4 · Numerical Functions</a></li>
+            <li><a href="#ch5">5 · Key Takeaways</a></li>
+          </ol>
+          <a href="microsoft-excel-project.pdf" target="_blank" rel="noopener" class="btn primary">↗ View PDF</a>
+        </details>
+
+        <section id="ch1">
+          <span class="chap">Introduction</span>
+          <h3>A spreadsheet tool for organising and understanding data</h3>
+          <p><strong>Microsoft Excel</strong> is a popular spreadsheet application developed by Microsoft. It is used to store, organise, calculate and analyse data in a tabular format. Information is arranged in rows and columns, and each box formed where a row and column meet is called a <strong>cell</strong>.</p>
+          <p>Excel is useful because it combines an easy-to-use grid with functions that can perform calculations and work with text. It can also create graphs and charts to help present information clearly.</p>
+          <h4>What Excel helps us do</h4>
+          <ul>
+            <li><strong>Store:</strong> keep information in a table.</li>
+            <li><strong>Organise:</strong> arrange data in rows and columns.</li>
+            <li><strong>Calculate:</strong> perform mathematical operations quickly.</li>
+            <li><strong>Analyse:</strong> use data to create graphs and charts.</li>
+          </ul>
+          <div class="callout"><strong>Rows, columns and cells</strong><p>A <strong>row</strong> runs horizontally, a <strong>column</strong> runs vertically, and a <strong>cell</strong> is the box at their intersection. For example, <strong>C3</strong> means the cell in column C and row 3.</p></div>
+        </section>
+
+        <section id="ch2">
+          <span class="chap">Part 01</span>
+          <h3>What are functions in Excel?</h3>
+          <p>Functions are <strong>pre-defined formulas</strong> in Excel. They help perform simple as well as complex calculations. A function can accept arguments (the values or inputs supplied to it) and return a result.</p>
+          <p>Every function begins with an equal-to sign (<strong>=</strong>), followed by the function name and its arguments inside parentheses.</p>
+          <div class="callout"><strong>Anatomy of a function</strong><p><strong>=SUM(6,9971)</strong><br>The <strong>=</strong> is the compulsory equal-to sign, <strong>SUM</strong> is the function name, and <strong>(6,9971)</strong> contains the arguments. The output is <strong>9977</strong>.</p></div>
+          <h4>General syntax</h4>
+          <p><strong>=FUNCTION(arguments)</strong></p>
+          <p>Functions can perform arithmetic, trigonometric and logical calculations, and they can also work with text entries. This project groups examples into two categories:</p>
+          <ul>
+            <li><strong>Text functions:</strong> work with text entries, such as extracting characters or changing letter case.</li>
+            <li><strong>Numerical functions:</strong> perform operations on numbers, such as addition, averaging and rounding.</li>
+          </ul>
+        </section>
+
+        <section id="ch3">
+          <span class="chap">Part 02</span>
+          <h3>Text functions in Excel</h3>
+          <p>Text functions help us extract, count, join, format and change text. The examples below use the word “COMPUTER”, simple words and numbers to show what each function returns.</p>
+          <div class="table-wrap function-table-scroll" role="region" aria-label="Scrollable function table" tabindex="0"><table>
+            <thead><tr><th>Function</th><th>Purpose</th><th>Example</th><th>Output</th></tr></thead>
+            <tbody>
+              <tr><td><strong>LEFT(text, [num_chars])</strong></td><td>Extracts characters from the left side.</td><td><code>=LEFT("COMPUTER",4)</code></td><td>COMP</td></tr>
+              <tr><td><strong>RIGHT(text, [num_chars])</strong></td><td>Extracts characters from the right side.</td><td><code>=RIGHT("COMPUTER",4)</code></td><td>UTER</td></tr>
+              <tr><td><strong>MID(text, start_num, num_chars)</strong></td><td>Extracts characters from the middle.</td><td><code>=MID("COMPUTER",3,4)</code></td><td>MPUT</td></tr>
+              <tr><td><strong>LEN(text)</strong></td><td>Counts the number of characters.</td><td><code>=LEN("Excel")</code></td><td>5</td></tr>
+              <tr><td><strong>UPPER(text)</strong></td><td>Converts text to uppercase.</td><td><code>=UPPER("excel")</code></td><td>EXCEL</td></tr>
+              <tr><td><strong>LOWER(text)</strong></td><td>Converts text to lowercase.</td><td><code>=LOWER("EXCEL")</code></td><td>excel</td></tr>
+              <tr><td><strong>PROPER(text)</strong></td><td>Capitalises the first letter of each word.</td><td><code>=PROPER("microsoft excel")</code></td><td>Microsoft Excel</td></tr>
+              <tr><td><strong>TRIM(text)</strong></td><td>Removes extra spaces from text.</td><td><code>=TRIM("   Hello   World   ")</code></td><td>Hello World</td></tr>
+              <tr><td><strong>CONCAT(text1, [text2], ...)</strong></td><td>Joins two or more text strings.</td><td><code>=CONCAT("Hello"," World")</code></td><td>Hello World</td></tr>
+              <tr><td><strong>TEXT(value, format_text)</strong></td><td>Converts a number into formatted text.</td><td><code>=TEXT(1234.5,"0.00")</code></td><td>1234.50</td></tr>
+            </tbody>
+          </table></div>
+          <div class="callout"><strong>Quick way to remember</strong><p><strong>LEFT</strong>, <strong>RIGHT</strong> and <strong>MID</strong> extract parts of text; <strong>LEN</strong> counts characters; <strong>UPPER</strong>, <strong>LOWER</strong> and <strong>PROPER</strong> change letter case; and <strong>CONCAT</strong> joins text.</p></div>
+        </section>
+
+        <section id="ch4">
+          <span class="chap">Part 03</span>
+          <h3>Numerical functions in Excel</h3>
+          <p>Numerical functions perform calculations on numbers. They can add values, find averages, identify the highest or lowest number, count numeric entries and carry out other mathematical operations.</p>
+          <div class="table-wrap function-table-scroll" role="region" aria-label="Scrollable function table" tabindex="0"><table>
+            <thead><tr><th>Function</th><th>Purpose</th><th>Example</th><th>Output</th></tr></thead>
+            <tbody>
+              <tr><td><strong>SUM(number1, [number2], ...)</strong></td><td>Adds numbers together.</td><td><code>=SUM(10,20,30)</code></td><td>60</td></tr>
+              <tr><td><strong>AVERAGE(number1, [number2], ...)</strong></td><td>Calculates the average.</td><td><code>=AVERAGE(10,20,30)</code></td><td>20</td></tr>
+              <tr><td><strong>MAX(number1, [number2], ...)</strong></td><td>Finds the largest value.</td><td><code>=MAX(10,25,15)</code></td><td>25</td></tr>
+              <tr><td><strong>MIN(number1, [number2], ...)</strong></td><td>Finds the smallest value.</td><td><code>=MIN(10,25,15)</code></td><td>10</td></tr>
+              <tr><td><strong>COUNT(value1, [value2], ...)</strong></td><td>Counts cells containing numbers.</td><td><code>=COUNT(10,20,30)</code></td><td>3</td></tr>
+              <tr><td><strong>PRODUCT(number1, [number2], ...)</strong></td><td>Multiplies numbers together.</td><td><code>=PRODUCT(5,4)</code></td><td>20</td></tr>
+              <tr><td><strong>ROUND(number, num_digits)</strong></td><td>Rounds a number to specified digits.</td><td><code>=ROUND(12.567,2)</code></td><td>12.57</td></tr>
+              <tr><td><strong>ABS(number)</strong></td><td>Returns the absolute value.</td><td><code>=ABS(-25)</code></td><td>25</td></tr>
+              <tr><td><strong>SQRT(number)</strong></td><td>Calculates the square root.</td><td><code>=SQRT(64)</code></td><td>8</td></tr>
+              <tr><td><strong>POWER(number, power)</strong></td><td>Raises a number to a specified power.</td><td><code>=POWER(5,2)</code></td><td>25</td></tr>
+            </tbody>
+          </table></div>
+          <p>For example, <strong>=SUM(10,20,30)</strong> adds the three values and returns 60. <strong>=AVERAGE(10,20,30)</strong> returns 20, while <strong>=MAX(10,25,15)</strong> and <strong>=MIN(10,25,15)</strong> find the highest and lowest values.</p>
+        </section>
+
+        <section id="ch5">
+          <span class="chap">Conclusion</span>
+          <h3>Making data easier to work with</h3>
+          <p>Microsoft Excel combines the spreadsheet grid with functions that make it easier to organise and work with information. Text functions help handle words and characters, while numerical functions help perform calculations on values.</p>
+          <p>Understanding the syntax of a function and choosing the right function for a task are useful first steps towards working confidently with spreadsheets.</p>
+          <p style="color:var(--faint);font-size:13px">Written by <strong>Tanvir Hussain</strong> · Class 7 · Roll No. 01 · JTS English Medium School</p>
+        </section>
+      </article>
+    </div>
+
+    <section class="dl-card" id="download">
+      <div>
+        <h3>Read the original project PDF</h3>
+        <p>Prefer the original six-page project? Open <strong>microsoft-excel-project.pdf</strong> in your browser or download it for offline reading. Keep the PDF in the same folder as this HTML file.</p>
+      </div>
+      <div class="dl-actions">
+        <a class="btn primary" href="sources/Excel_Project_Tanvir_Hussain.pdf" target="_blank" rel="noopener">↗ View PDF</a>
+        <a class="btn secondary" href="sources/Excel_Project_Tanvir_Hussain.pdf" download="sources/Excel_Project_Tanvir_Hussain.pdf">⬇ Download PDF</a>
+      </div>
+    </section>
+
+    <footer><strong>H₂ Hydrogen</strong><span>Made with curiosity by school students.</span></footer>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll('#tocList a')];
+      const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            links.forEach(link => link.classList.remove('on'));
+            map.get(entry.target.id)?.classList.add('on');
+          });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        map.forEach((_, id) => {
+          const section = document.getElementById(id);
+          if (section) io.observe(section);
+        });
+      }
+      document.querySelectorAll('.toc-mobile a').forEach(link => {
+        link.addEventListener('click', () => { link.closest('details').open = false; });
+      });
+    })();
+  </script>
+</body>
+</html>
